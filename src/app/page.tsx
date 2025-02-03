@@ -1,101 +1,147 @@
-import Image from "next/image";
+"use client"
+
+import { useState } from 'react'
+import Image from 'next/image'
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [activeSidebar, setActiveSidebar] = useState('dashboard')
+  const [isAIAssistantOpen, setIsAIAssistantOpen] = useState(false)
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const sidebarNavigation = [
+    { 
+      icon: '/icons/dashboard.svg', 
+      label: 'Dashboard', 
+      key: 'dashboard' 
+    },
+    { 
+      icon: '/icons/project.svg', 
+      label: 'Projects', 
+      key: 'projects' 
+    },
+    { 
+      icon: '/icons/crm.svg', 
+      label: 'CRM', 
+      key: 'crm' 
+    },
+    { 
+      icon: '/icons/marketing.svg', 
+      label: 'Marketing', 
+      key: 'marketing' 
+    },
+    { 
+      icon: '/icons/analytics.svg', 
+      label: 'Analytics', 
+      key: 'analytics' 
+    },
+    { 
+      icon: '/icons/settings.svg', 
+      label: 'Settings', 
+      key: 'settings' 
+    }
+  ]
+
+  return (
+    <main className="flex h-screen bg-gray-100">
+      {/* Left Sidebar Navigation */}
+      <div 
+        className={`${
+          isSidebarCollapsed ? 'w-16' : 'w-64'
+        } bg-white border-r flex flex-col items-center py-4 transition-all duration-300`}
+      >
+        {/* Collapse/Expand Button */}
+        <button 
+          onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          className="mb-4 p-2 hover:bg-gray-100 rounded"
+        >
+          <Image 
+            src="/icons/chevron-left.svg" 
+            alt="Toggle Sidebar" 
+            width={24} 
+            height={24} 
+            className={`transform ${
+              isSidebarCollapsed ? 'rotate-180' : ''
+            } transition-transform`}
+          />
+        </button>
+
+        {sidebarNavigation.map((item) => (
+          <button
+            key={item.key}
+            className={`mb-2 p-2 rounded flex items-center ${
+              activeSidebar === item.key 
+                ? 'bg-blue-100 text-blue-600' 
+                : 'hover:bg-gray-100'
+            } ${isSidebarCollapsed ? 'justify-center' : 'w-full px-4'}`}
+            onClick={() => setActiveSidebar(item.key)}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+            <Image 
+              src={item.icon} 
+              alt={item.label} 
+              width={24} 
+              height={24} 
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            {!isSidebarCollapsed && (
+              <span className="ml-3 text-sm">{item.label}</span>
+            )}
+          </button>
+        ))}
+
+        {/* AI Assistant Toggle */}
+        <button 
+          className={`mt-auto mb-4 p-2 rounded flex items-center ${
+            isAIAssistantOpen 
+              ? 'bg-blue-500 text-white' 
+              : 'bg-white border hover:bg-gray-100'
+          } ${isSidebarCollapsed ? 'justify-center' : 'w-full px-4'}`}
+          onClick={() => setIsAIAssistantOpen(!isAIAssistantOpen)}
+        >
+          <Image 
+            src="/icons/ai-chat.svg" 
+            alt="AI Assistant" 
+            width={24} 
+            height={24} 
+          />
+          {!isSidebarCollapsed && (
+            <span className="ml-3 text-sm">AI Assistant</span>
+          )}
+        </button>
+      </div>
+
+      {/* Main Content Area */}
+      <div className="flex-1 grid grid-cols-3 gap-4 p-4">
+        {/* Main content same as previous example */}
+        <div className="col-span-2 bg-white p-4 rounded shadow">
+          <h2 className="text-xl font-semibold mb-4">Dashboard</h2>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+
+        <div className="col-span-1 space-y-4">
+          <div className="bg-white p-4 rounded shadow">
+            <h3 className="text-lg font-medium mb-3">Quick Actions</h3>
+            <div className="space-y-2">
+              <button className="w-full bg-blue-500 text-white p-2 rounded">
+                Create Task
+              </button>
+              <button className="w-full bg-green-500 text-white p-2 rounded">
+                Start Meeting
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-white p-4 rounded shadow">
+            <h3 className="text-lg font-medium mb-3">Team Activity</h3>
+          </div>
+        </div>
+      </div>
+
+      {/* AI Assistant Chat (Placeholder) */}
+      {isAIAssistantOpen && (
+        <div className="fixed bottom-4 right-4 w-80 bg-white border rounded-lg shadow-lg p-4">
+          <div className="h-64 overflow-y-auto">
+            <p className="text-gray-500">AI Assistant Chat</p>
+          </div>
+        </div>
+      )}
+    </main>
+  )
 }
