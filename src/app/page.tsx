@@ -5,6 +5,7 @@ import Image from 'next/image';
 import AIAssistantChat from '@/components/ai-assistant/chat';
 import QuickActionWidget from '@/components/dashboard/quick-actions';
 import TeamActivityFeed from '@/components/dashboard/team-activity';
+import ProjectDashboard from '@/components/dashboard/project-dashboard';
 
 export default function Home() {
   const [activeSidebar, setActiveSidebar] = useState('dashboard');
@@ -112,22 +113,21 @@ export default function Home() {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 grid grid-cols-3 gap-4 p-4">
-        {/* Main Dashboard Content - Will be replaced with ProjectDashboard component later */}
-        <div className="col-span-2 bg-white p-4 rounded shadow">
-          <h2 className="text-xl font-semibold mb-4">Dashboard</h2>
-          {/* ProjectDashboard component will go here */}
+      <div className="flex-1 grid grid-cols-3 gap-4 p-4 overflow-hidden">
+        {/* Project Dashboard */}
+        <div className="col-span-2 bg-white p-4 rounded shadow overflow-auto h-[calc(100vh-2rem)]">
+          <ProjectDashboard />
         </div>
 
         {/* Right Sidebar */}
-        <div className="col-span-1 space-y-4">
+        <div className="col-span-1 space-y-4 h-[calc(100vh-2rem)] overflow-hidden">
           {/* Quick Actions Widget */}
           <div className="bg-white p-4 rounded shadow">
             <QuickActionWidget />
           </div>
 
           {/* Team Activity Feed */}
-          <div className="bg-white p-4 rounded shadow">
+          <div className="bg-white p-4 rounded shadow h-[calc(100%-11rem)] overflow-hidden">
             <TeamActivityFeed />
           </div>
         </div>
