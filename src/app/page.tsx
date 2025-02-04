@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import Image from 'next/image'
-import AIAssistantChat from '@/components/ai-assistant/chat'
-import QuickActionWidget from '@/components/dashboard/quick-actions'
-import TeamActivityFeed from '@/components/dashboard/team-activity'
+import { useState } from 'react';
+import Image from 'next/image';
+import AIAssistantChat from '@/components/ai-assistant/chat';
+import QuickActionWidget from '@/components/dashboard/quick-actions';
+import TeamActivityFeed from '@/components/dashboard/team-activity';
 
 export default function Home() {
-  const [activeSidebar, setActiveSidebar] = useState('dashboard')
-  const [isAIAssistantOpen, setIsAIAssistantOpen] = useState(false)
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+  const [activeSidebar, setActiveSidebar] = useState('dashboard');
+  const [isAIAssistantOpen, setIsAIAssistantOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const sidebarNavigation = [
     { 
@@ -42,7 +42,7 @@ export default function Home() {
       label: 'Settings', 
       key: 'settings' 
     }
-  ]
+  ];
 
   return (
     <main className="flex h-screen bg-gray-100">
@@ -140,5 +140,5 @@ export default function Home() {
         </div>
       )}
     </main>
-  )
+  );
 }
